@@ -158,7 +158,7 @@ public sealed partial class NPCSteeringSystem
             {
                 if (_melee.TryGetWeapon(uid, out _, out var meleeWeapon) && meleeWeapon.NextAttack <= _timing.CurTime && TryComp<CombatModeComponent>(uid, out var combatMode))
                 {
-                    _combat.SetInCombatMode(uid, true, combatMode);
+                    _combat.SetInThreatStance(uid, true, combatMode);
                     // TODO: This is a hack around grilles and windows.
                     _random.Shuffle(obstacleEnts);
                     var attackResult = false;
@@ -173,7 +173,7 @@ public sealed partial class NPCSteeringSystem
                         }
                     }
 
-                    _combat.SetInCombatMode(uid, false, combatMode);
+                    _combat.SetInThreatStance(uid, false, combatMode);
 
                     // Blocked or the likes?
                     if (!attackResult)

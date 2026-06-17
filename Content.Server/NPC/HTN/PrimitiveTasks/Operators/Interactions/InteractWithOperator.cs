@@ -78,7 +78,7 @@ public sealed partial class InteractWithOperator : HTNOperator
 
         if (_entManager.TryGetComponent<CombatModeComponent>(owner, out var combatMode))
         {
-            _entManager.System<SharedCombatModeSystem>().SetInCombatMode(owner, false, combatMode);
+            _entManager.System<SharedCombatModeSystem>().SetInThreatStance(owner, false, combatMode);
         }
 
         _entManager.System<InteractionSystem>().UserInteraction(owner, targetXform.Coordinates, moveTarget);

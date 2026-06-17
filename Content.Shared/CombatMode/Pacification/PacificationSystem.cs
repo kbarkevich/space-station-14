@@ -113,7 +113,7 @@ public sealed partial class PacificationSystem : EntitySystem
 
         if (component.DisallowAllCombat)
         {
-            _combatSystem.SetInCombatMode(uid, false, combatMode);
+            _combatSystem.SetInThreatStance(uid, false, combatMode);
             _actionsSystem.SetEnabled(combatMode.CombatToggleActionEntity, false);
         }
 

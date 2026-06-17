@@ -1,4 +1,5 @@
 using Content.Shared.Actions;
+using Content.Shared.Chat;
 using Content.Shared.Mind;
 using Content.Shared.MouseRotator;
 using Content.Shared.Movement.Components;
@@ -15,6 +16,7 @@ public abstract partial class SharedCombatModeSystem : EntitySystem
     [Dependency] private SharedPopupSystem _popup = default!;
     [Dependency] private SharedMindSystem _mind = default!;
     [Dependency] private SharedNPCSystem _npc = default!;
+    [Dependency] private SharedChatSystem _chatSystem = default!;
 
     public override void Initialize()
     {
@@ -44,9 +46,9 @@ public abstract partial class SharedCombatModeSystem : EntitySystem
             return;
 
         args.Handled = true;
-        SetInCombatMode(uid, !component.IsInCombatMode, component);
+        SetInThreatStance(uid, !component.IsInThreatStance, component);
 
-        var msg = component.IsInCombatMode ? "action-popup-combat-enabled" : "action-popup-combat-disabled";
+        var msg = component.IsInThreatStance ? "action-popup-threat-stance-enabled" : "action-popup-threat-stance-disabled";
         _popup.PopupClient(Loc.GetString(msg), args.Performer, args.Performer);
     }
 
@@ -58,24 +60,29 @@ public abstract partial class SharedCombatModeSystem : EntitySystem
         component.CanDisarm = canDisarm;
     }
 
-    public bool IsInCombatMode(EntityUid? entity, CombatModeComponent? component = null)
+    public bool IsInThreatStance(EntityUid? entity, CombatModeComponent? component = null)
     {
-        return entity != null && Resolve(entity.Value, ref component, false) && component.IsInCombatMode;
+        return entity != null && Resolve(entity.Value, ref component, false) && component.IsInThreatStance;
     }
 
-    public virtual void SetInCombatMode(EntityUid entity, bool value, CombatModeComponent? component = null)
+    public virtual void SetInThreatStance(EntityUid entity, bool value, CombatModeComponent? component = null)
     {
         if (!Resolve(entity, ref component))
             return;
 
-        if (component.IsInCombatMode == value)
+        if (component.IsInThreatStance == value)
             return;
 
-        component.IsInCombatMode = value;
+        component.IsInThreatStance = value;
         Dirty(entity, component);
 
         if (component.CombatToggleActionEntity != null)
-            _actionsSystem.SetToggled(component.CombatToggleActionEntity, component.IsInCombatMode);
+            _actionsSystem.SetToggled(component.CombatToggleActionEntity, component.IsInThreatStance);
+
+        if (component.IsInThreatStance)
+            _chatSystem.TrySendInGameICMessage(entity, "raises their dukes.", InGameICChatType.Emote, ChatTransmitRange.Normal);
+        else
+            _chatSystem.TrySendInGameICMessage(entity, "lowers their dukes.", InGameICChatType.Emote, ChatTransmitRange.Normal);
 
         // Change mouse rotator comps if flag is set
         if (!component.ToggleMouseRotator || _npc.IsNpc(entity) && !_mind.TryGetMind(entity, out _, out _))

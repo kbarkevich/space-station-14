@@ -40,7 +40,7 @@ public sealed class MeleeArcOverlay : Overlay
         var player = _playerManager.LocalEntity;
 
         if (!_entManager.TryGetComponent<TransformComponent>(player, out var xform) ||
-            !_combatMode.IsInCombatMode(player))
+            !_combatMode.IsInThreatStance(player))
         {
             return;
         }

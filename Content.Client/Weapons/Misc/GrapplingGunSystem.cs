@@ -35,7 +35,7 @@ public sealed partial class GrapplingGunSystem : SharedGrapplingGunSystem
         var reelKey = _input.CmdStates.GetState(EngineKeyFunctions.UseSecondary) == BoundKeyState.Down;
 
         if (!TryComp<CombatModeComponent>(local, out var combatMode) ||
-            !combatMode.IsInCombatMode)
+            !combatMode.IsInThreatStance)
         {
             reelKey = false;
         }
