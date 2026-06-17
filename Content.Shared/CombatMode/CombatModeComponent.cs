@@ -12,7 +12,7 @@ namespace Content.Shared.CombatMode
     ///     This is used to differentiate between regular item interactions or
     ///     using *everything* as a weapon.
     /// </summary>
-    [RegisterComponent, NetworkedComponent, AutoGenerateComponentState(true)]
+    [RegisterComponent, NetworkedComponent, AutoGenerateComponentState(true, fieldDeltas: true)]
     [Access(typeof(SharedCombatModeSystem))]
     public sealed partial class CombatModeComponent : Component
     {
@@ -41,6 +41,27 @@ namespace Content.Shared.CombatMode
 
         [ViewVariables(VVAccess.ReadWrite), DataField("IsInThreatStance"), AutoNetworkedField]
         public bool IsInThreatStance;
+
+        [ViewVariables(VVAccess.ReadWrite), DataField("ThreatStancePrepTime"), AutoNetworkedField]
+        public float ThreatStancePrepTime = 1.0f;
+
+        [ViewVariables(VVAccess.ReadWrite), AutoNetworkedField]
+        public TimeSpan? EnteredThreatStance = null;
+
+        //[ViewVariables(VVAccess.ReadOnly), AutoNetworkedField]
+        public bool CombatTurnProgressing { get => Target is not null; }//false;
+
+        [ViewVariables(VVAccess.ReadWrite), DataField("TurnDuration"), AutoNetworkedField]
+        public float CombatTurnDuration = 2.5f;
+
+        [ViewVariables(VVAccess.ReadOnly), AutoNetworkedField]
+        public float CombatTurnTimer = 0.0f;
+
+        [ViewVariables(VVAccess.ReadOnly), DataField("LastTurnStarted", serverOnly: true), AutoNetworkedField]
+        public TimeSpan? LastTurnStarted = null;
+
+        [ViewVariables(VVAccess.ReadWrite), AutoNetworkedField]
+        public EntityUid? Target = null;
 
         /// <summary>
         ///     Will add <see cref="MouseRotatorComponent"/> and <see cref="NoRotateOnMoveComponent"/>

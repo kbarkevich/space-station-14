@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+using Content.Shared.CombatMode.Events;
 using Content.Shared.Actions;
 using Content.Shared.Chat;
 using Content.Shared.Mind;
@@ -40,16 +42,27 @@ public abstract partial class SharedCombatModeSystem : EntitySystem
         SetMouseRotatorComponents(uid, false);
     }
 
+    public bool TryGetCombatModeComponent(EntityUid entity, [NotNullWhen(true)] out CombatModeComponent? combatModeComponent)
+    {
+        if (TryComp(entity, out combatModeComponent))
+        {
+            return true;
+        }
+        return false;
+    }
+
     private void OnActionPerform(EntityUid uid, CombatModeComponent component, ToggleCombatActionEvent args)
     {
         if (args.Handled)
             return;
 
         args.Handled = true;
+
+        bool oldCombatMode = component.IsInThreatStance;
         SetInThreatStance(uid, !component.IsInThreatStance, component);
 
-        var msg = component.IsInThreatStance ? "action-popup-threat-stance-enabled" : "action-popup-threat-stance-disabled";
-        _popup.PopupClient(Loc.GetString(msg), args.Performer, args.Performer);
+        if (component.IsInThreatStance == oldCombatMode)
+            return;
     }
 
     public void SetCanDisarm(EntityUid entity, bool canDisarm, CombatModeComponent? component = null)
@@ -73,22 +86,43 @@ public abstract partial class SharedCombatModeSystem : EntitySystem
         if (component.IsInThreatStance == value)
             return;
 
+        if (component.EnteredThreatStance is not null
+            && (Timing.CurTime - (TimeSpan)component.EnteredThreatStance).Seconds < component.ThreatStancePrepTime)
+            return;
+
         component.IsInThreatStance = value;
-        Dirty(entity, component);
+        component.EnteredThreatStance = Timing.CurTime;
+        string[] x = { nameof(CombatModeComponent.IsInThreatStance), nameof(CombatModeComponent.Target), nameof(CombatModeComponent.EnteredThreatStance) };
+        DirtyFields(entity, component, null, x);
 
         if (component.CombatToggleActionEntity != null)
             _actionsSystem.SetToggled(component.CombatToggleActionEntity, component.IsInThreatStance);
 
         if (component.IsInThreatStance)
-            _chatSystem.TrySendInGameICMessage(entity, "raises their dukes.", InGameICChatType.Emote, ChatTransmitRange.Normal);
+            _chatSystem.TrySendInGameICMessage(entity, Loc.GetString("action-popup-threat-stance-enabled"), InGameICChatType.Emote, ChatTransmitRange.Normal);
         else
-            _chatSystem.TrySendInGameICMessage(entity, "lowers their dukes.", InGameICChatType.Emote, ChatTransmitRange.Normal);
+            _chatSystem.TrySendInGameICMessage(entity, Loc.GetString("action-popup-threat-stance-disabled"), InGameICChatType.Emote, ChatTransmitRange.Normal);
 
         // Change mouse rotator comps if flag is set
         if (!component.ToggleMouseRotator || _npc.IsNpc(entity) && !_mind.TryGetMind(entity, out _, out _))
             return;
 
         SetMouseRotatorComponents(entity, value);
+    }
+
+    /// <summary>
+    /// Do we have a valid target and has the turn been marked for approval by the server?
+    /// </summary>
+    /// <param name="entity">The EntityUid associated with the CombatModeComponent.</param>
+    /// <param name="component">Obtained from "entity" if null.</param>
+    /// <returns>true/false depending on whether or not the turn timer should advance.</returns>
+    public bool IsTurnProgressing(EntityUid? entity, CombatModeComponent? component = null)
+    {
+        return entity != null
+            && Resolve(entity.Value, ref component, false)
+            && IsInThreatStance(entity, component)
+            && component.CombatTurnProgressing
+            && component.CombatTurnTimer >= 0f;
     }
 
     private void SetMouseRotatorComponents(EntityUid uid, bool value)
