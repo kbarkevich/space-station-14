@@ -57,11 +57,10 @@ public abstract partial class SharedCombatModeSystem : EntitySystem
             return;
 
         args.Handled = true;
-
-        bool oldCombatMode = component.IsInThreatStance;
+        bool oldThreatStance = component.IsInThreatStance;
         SetInThreatStance(uid, !component.IsInThreatStance, component);
 
-        if (component.IsInThreatStance == oldCombatMode)
+        if (component.IsInThreatStance == oldThreatStance)
             return;
     }
 
