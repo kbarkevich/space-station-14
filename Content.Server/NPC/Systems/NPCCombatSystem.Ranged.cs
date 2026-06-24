@@ -38,7 +38,7 @@ public sealed partial class NPCCombatSystem
     {
         if (TryComp<CombatModeComponent>(uid, out var combat))
         {
-            _combat.SetInCombatMode(uid, true, combat);
+            _combat.SetInThreatStance(uid, true, combat);
         }
         else
         {
@@ -50,7 +50,7 @@ public sealed partial class NPCCombatSystem
     {
         if (TryComp<CombatModeComponent>(uid, out var combat))
         {
-            _combat.SetInCombatMode(uid, false, combat);
+            _combat.SetInThreatStance(uid, false, combat);
         }
     }
 
@@ -87,7 +87,7 @@ public sealed partial class NPCCombatSystem
 
             if (_combatQuery.TryGetComponent(uid, out var combatMode))
             {
-                _combat.SetInCombatMode(uid, true, combatMode);
+                _combat.SetInThreatStance(uid, true, combatMode);
             }
 
             if (!_gun.TryGetGun(uid, out var gun))

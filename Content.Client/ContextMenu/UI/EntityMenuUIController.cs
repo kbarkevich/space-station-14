@@ -168,7 +168,7 @@ namespace Content.Client.ContextMenu.UI
             if (_stateManager.CurrentState is not GameplayStateBase)
                 return false;
 
-            if (_combatMode.IsInCombatMode(args.Session?.AttachedEntity))
+            if (_combatMode.IsInThreatStance(args.Session?.AttachedEntity))
                 return false;
 
             var coords = _xform.ToMapCoordinates(args.Coordinates);

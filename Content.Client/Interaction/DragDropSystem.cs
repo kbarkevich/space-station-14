@@ -179,7 +179,7 @@ public sealed partial class DragDropSystem : SharedDragDropSystem
     private bool OnUseMouseDown(in PointerInputCmdHandler.PointerInputCmdArgs args)
     {
         if (args.Session?.AttachedEntity is not { Valid: true } dragger ||
-            _combatMode.IsInCombatMode())
+            _combatMode.IsInThreatStance())
         {
             return false;
         }
@@ -268,7 +268,7 @@ public sealed partial class DragDropSystem : SharedDragDropSystem
 
     private bool UpdateDrag(float frameTime)
     {
-        if (!Exists(_draggedEntity) || _combatMode.IsInCombatMode())
+        if (!Exists(_draggedEntity) || _combatMode.IsInThreatStance())
         {
             EndDrag();
             return false;

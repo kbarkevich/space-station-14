@@ -50,7 +50,7 @@ public sealed partial class MeleeAttackOperator : HTNOperator
             return HTNOperatorStatus.Failed;
         }
 
-        _entManager.System<SharedCombatModeSystem>().SetInCombatMode(owner, true, combatMode);
+        _entManager.System<SharedCombatModeSystem>().SetInThreatStance(owner, true, combatMode);
 
 
         if (!blackboard.TryGetValue<EntityUid>(TargetKey, out var target, _entManager) ||
@@ -65,6 +65,6 @@ public sealed partial class MeleeAttackOperator : HTNOperator
     private void ExitCombatMode(NPCBlackboard blackboard)
     {
         var owner = blackboard.GetValue<EntityUid>(NPCBlackboard.Owner);
-        _entManager.System<SharedCombatModeSystem>().SetInCombatMode(owner, false);
+        _entManager.System<SharedCombatModeSystem>().SetInThreatStance(owner, false);
     }
 }

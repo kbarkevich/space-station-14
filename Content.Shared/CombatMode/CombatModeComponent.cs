@@ -34,13 +34,13 @@ namespace Content.Shared.CombatMode
         #endregion
 
         [DataField("combatToggleAction", customTypeSerializer: typeof(PrototypeIdSerializer<EntityPrototype>))]
-        public string CombatToggleAction = "ActionCombatModeToggle";
+        public string CombatToggleAction = "ActionThreatStanceToggle";
 
         [DataField, AutoNetworkedField]
         public EntityUid? CombatToggleActionEntity;
 
-        [ViewVariables(VVAccess.ReadWrite), DataField("isInCombatMode"), AutoNetworkedField]
-        public bool IsInCombatMode;
+        [ViewVariables(VVAccess.ReadWrite), DataField("IsInThreatStance"), AutoNetworkedField]
+        public bool IsInThreatStance;
 
         /// <summary>
         ///     Will add <see cref="MouseRotatorComponent"/> and <see cref="NoRotateOnMoveComponent"/>

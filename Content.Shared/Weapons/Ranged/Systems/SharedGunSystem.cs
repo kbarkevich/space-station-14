@@ -146,7 +146,7 @@ public abstract partial class SharedGunSystem : EntitySystem
         var user = args.SenderSession.AttachedEntity;
 
         if (user == null ||
-            !_combatMode.IsInCombatMode(user) ||
+            !_combatMode.IsInThreatStance(user) ||
             !TryGetGun(user.Value, out var gun))
         {
             return;

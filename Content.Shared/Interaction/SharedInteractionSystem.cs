@@ -406,7 +406,7 @@ namespace Content.Shared.Interaction
             if (target != null && Deleted(target.Value))
                 return;
 
-            if (!altInteract && _combatQuery.TryComp(user, out var combatMode) && combatMode.IsInCombatMode)
+            if (!altInteract && _combatQuery.TryComp(user, out var combatMode) && combatMode.IsInThreatStance)
             {
                 if (!CombatModeCanHandInteract(user, target))
                     return;

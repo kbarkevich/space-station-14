@@ -199,8 +199,8 @@ public sealed partial class SharedExecutionSystem : EntitySystem
             return;
 
         // This is needed so the melee system does not stop it.
-        var prev = _combat.IsInCombatMode(attacker);
-        _combat.SetInCombatMode(attacker, true);
+        var prev = _combat.IsInThreatStance(attacker);
+        _combat.SetInThreatStance(attacker, true);
         entity.Comp.Executing = true;
 
         var internalMsg = entity.Comp.CompleteInternalMeleeExecutionMessage;
@@ -219,7 +219,7 @@ public sealed partial class SharedExecutionSystem : EntitySystem
             _melee.AttemptLightAttack(attacker, weapon, meleeWeaponComp, victim);
         }
 
-        _combat.SetInCombatMode(attacker, prev);
+        _combat.SetInThreatStance(attacker, prev);
         entity.Comp.Executing = false;
         args.Handled = true;
 

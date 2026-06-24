@@ -244,20 +244,20 @@ namespace Content.Client.ContextMenu.UI
             menu.InvalidateMeasure();
         }
 
-        private void OnCombatModeUpdated(bool inCombatMode)
+        private void OnThreatStanceUpdated(bool inThreatStance)
         {
-            if (inCombatMode)
+            if (inThreatStance)
                 Close();
         }
 
         public void OnSystemLoaded(CombatModeSystem system)
         {
-            system.LocalPlayerCombatModeUpdated += OnCombatModeUpdated;
+            system.LocalPlayerCombatModeUpdated += OnThreatStanceUpdated;
         }
 
         public void OnSystemUnloaded(CombatModeSystem system)
         {
-            system.LocalPlayerCombatModeUpdated -= OnCombatModeUpdated;
+            system.LocalPlayerCombatModeUpdated -= OnThreatStanceUpdated;
         }
     }
 }

@@ -484,9 +484,9 @@ public abstract partial class InteractionTest
 
     # region Combat
     /// <summary>
-    /// Returns if the player is currently in combat mode.
+    /// Returns if the player is currently in the threat stance.
     /// </summary>
-    protected bool IsInCombatMode()
+    protected bool IsInThreatStance()
     {
         if (!SEntMan.TryGetComponent(SPlayer, out CombatModeComponent? combat))
         {
@@ -494,13 +494,13 @@ public abstract partial class InteractionTest
             return false;
         }
 
-        return combat.IsInCombatMode;
+        return combat.IsInThreatStance;
     }
 
     /// <summary>
     /// Set the combat mode for the player.
     /// </summary>
-    protected async Task SetCombatMode(bool enabled)
+    protected async Task SetThreatStance(bool enabled)
     {
         if (!SEntMan.TryGetComponent(SPlayer, out CombatModeComponent? combat))
         {
@@ -508,10 +508,10 @@ public abstract partial class InteractionTest
             return;
         }
 
-        await Server.WaitPost(() => SCombatMode.SetInCombatMode(SPlayer, enabled, combat));
+        await Server.WaitPost(() => SCombatMode.SetInThreatStance(SPlayer, enabled, combat));
         await RunTicks(1);
 
-        Assert.That(combat.IsInCombatMode, Is.EqualTo(enabled), $"Player could not set combate mode to {enabled}");
+        Assert.That(combat.IsInThreatStance, Is.EqualTo(enabled), $"Player could not set threat stance to {enabled}");
     }
 
     /// <summary>
@@ -537,8 +537,8 @@ public abstract partial class InteractionTest
         }
 
         // Enter combat mode before shooting.
-        var wasInCombatMode = IsInCombatMode();
-        await SetCombatMode(true);
+        var wasInThreatStance = IsInThreatStance();
+        await SetThreatStance(true);
 
         Assert.That(SGun.TryGetGun(SPlayer, out var gun), "Player was not holding a gun!");
 
@@ -551,7 +551,7 @@ public abstract partial class InteractionTest
         await RunTicks(1);
 
         // If the player was not in combat mode before then disable it again.
-        await SetCombatMode(wasInCombatMode);
+        await SetThreatStance(wasInThreatStance);
     }
 
     /// <summary>
@@ -575,9 +575,9 @@ public abstract partial class InteractionTest
             return;
         }
 
-        // Enter combat mode before shooting.
-        var wasInCombatMode = IsInCombatMode();
-        await SetCombatMode(true);
+        // Enter threat stance before shooting.
+        var wasInThreatStance = IsInThreatStance();
+        await SetThreatStance(true);
 
         Assert.That(SGun.TryGetGun(SPlayer, out var gun), "Player was not holding a gun!");
 
@@ -589,8 +589,8 @@ public abstract partial class InteractionTest
         });
         await RunTicks(1);
 
-        // If the player was not in combat mode before then disable it again.
-        await SetCombatMode(wasInCombatMode);
+        // If the player was not in threat stance before then disable it again.
+        await SetThreatStance(wasInThreatStance);
     }
 
     #endregion

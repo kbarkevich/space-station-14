@@ -21,7 +21,7 @@ public sealed partial class NPCCombatSystem
     {
         if (TryComp<CombatModeComponent>(uid, out var combatMode))
         {
-            _combat.SetInCombatMode(uid, false, combatMode);
+            _combat.SetInThreatStance(uid, false, combatMode);
         }
 
         _steering.Unregister(uid);
@@ -31,7 +31,7 @@ public sealed partial class NPCCombatSystem
     {
         if (TryComp<CombatModeComponent>(uid, out var combatMode))
         {
-            _combat.SetInCombatMode(uid, true, combatMode);
+            _combat.SetInThreatStance(uid, true, combatMode);
         }
     }
 
@@ -42,7 +42,7 @@ public sealed partial class NPCCombatSystem
 
         while (query.MoveNext(out var uid, out var comp, out _))
         {
-            if (!_combatQuery.TryGetComponent(uid, out var combat) || !combat.IsInCombatMode)
+            if (!_combatQuery.TryGetComponent(uid, out var combat) || !combat.IsInThreatStance)
             {
                 RemComp<NPCMeleeCombatComponent>(uid);
                 continue;

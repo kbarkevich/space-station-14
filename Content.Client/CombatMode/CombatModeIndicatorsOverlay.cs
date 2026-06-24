@@ -54,7 +54,7 @@ public sealed class CombatModeIndicatorsOverlay : Overlay
 
     protected override bool BeforeDraw(in OverlayDrawArgs args)
     {
-        if (!_combat.IsInCombatMode())
+        if (!_combat.IsInThreatStance())
             return false;
 
         return base.BeforeDraw(in args);

@@ -39,7 +39,7 @@ public sealed partial class CatchableSystem : EntitySystem
             return; // don't do anything for walls etc
 
         // Is the catcher in combat mode if required?
-        if (ent.Comp.RequireCombatMode && (!_combatModeQuery.TryComp(args.Target, out var combatModeComp) || !combatModeComp.IsInCombatMode))
+        if (ent.Comp.RequireCombatMode && (!_combatModeQuery.TryComp(args.Target, out var combatModeComp) || !combatModeComp.IsInThreatStance))
             return;
 
         // Is the catcher able to catch this item?

@@ -605,7 +605,7 @@
     - ChefPilot
     - Meat
   - type: CombatMode
-    combatToggleAction: ActionCombatModeToggleOff
+    combatToggleAction: ActionThreatStanceToggleOff
   - type: Bloodstream
     bloodReferenceSolution:
       reagents:
