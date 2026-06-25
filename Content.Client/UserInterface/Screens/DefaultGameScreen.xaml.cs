@@ -20,8 +20,11 @@ public sealed partial class DefaultGameScreen : InGameScreen
         SetAnchorAndMarginPreset(Ghost, LayoutPreset.BottomWide, margin: 80);
         SetAnchorAndMarginPreset(Inventory, LayoutPreset.BottomLeft, margin: 5);
         SetAnchorAndMarginPreset(Hotbar, LayoutPreset.BottomWide, margin: 5);
+        SetAnchorAndMarginPreset(Combat, LayoutPreset.BottomWide, margin: 5);
         SetAnchorAndMarginPreset(Chat, LayoutPreset.TopRight, margin: 10);
         SetAnchorAndMarginPreset(Alerts, LayoutPreset.TopRight, margin: 10);
+
+        Hotbar.OnResized += () => SetMarginLeft(Combat, Hotbar.Width + Combat.Width + 5f);
 
         Chat.OnResized += ChatOnResized;
         Chat.OnChatResizeFinish += ChatOnResizeFinish;
