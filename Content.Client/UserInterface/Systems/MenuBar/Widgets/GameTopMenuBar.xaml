@@ -44,6 +44,16 @@
         AppendStyleClass="{x:Static style:StyleClass.ButtonSquare}"
         />
     <ui:MenuButton
+        Name="JobObjectivesButton"
+        Access="Internal"
+        Icon="{xe:Tex '/Textures/Interface/jobobjectives.png'}"
+        ToolTip="{Loc 'job-objectives-title'}"
+        BoundKey = "{x:Static is:ContentKeyFunctions.OpenJobObjectivesMenu}"
+        MinSize="42 64"
+        HorizontalExpand="True"
+        AppendStyleClass="{x:Static style:StyleClass.ButtonSquare}"
+        />
+    <ui:MenuButton
         Name="EmotesButton"
         Access="Internal"
         Icon="{xe:Tex '/Textures/Interface/emotes.svg.192dpi.png'}"

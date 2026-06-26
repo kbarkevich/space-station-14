@@ -191,6 +191,9 @@ binds:
 - function: OpenCharacterMenu
   type: State
   key: U
+- function: OpenJobObjectivesMenu
+  type: State
+  key: O
 - function: OpenEmotesMenu
   type: State
   key: Y
