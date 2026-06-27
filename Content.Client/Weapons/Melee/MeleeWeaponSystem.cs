@@ -1,4 +1,5 @@
 using System.Linq;
+using Content.Client.CombatMode;
 using Content.Client.Gameplay;
 using Content.Shared.CCVar;
 using Content.Shared.CombatMode;
@@ -34,6 +35,7 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
     [Dependency] private MapSystem _map = default!;
     [Dependency] private SpriteSystem _sprite = default!;
     [Dependency] private IConfigurationManager _cfg = default!;
+    [Dependency] private CombatModeSystem _combatMode = default!;
 
     private const string MeleeLungeKey = "melee-lunge";
 
@@ -153,6 +155,62 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
             ClientLightAttack(entity, mousePos, coordinates, weaponUid, weapon);
     }
 
+    public void AutoLightAttack()
+    {
+        // Get the player doing the attack
+        var entityNull = _player.LocalEntity;
+
+        if (entityNull == null)
+            return;
+
+        var entity = entityNull.Value;
+
+        // Get the "mouse position" and attack coordinates
+        var mousePos = _eyeManager.PixelToMap(_inputManager.MouseScreenPosition);
+
+        if (mousePos.MapId == MapId.Nullspace)
+        {
+            return;
+        }
+
+        EntityCoordinates coordinates;
+
+        if (MapManager.TryFindGridAt(mousePos, out var gridUid, out _))
+        {
+            coordinates = TransformSystem.ToCoordinates(gridUid, mousePos);
+        }
+        else
+        {
+            coordinates = TransformSystem.ToCoordinates(_map.GetMap(mousePos.MapId), mousePos);
+        }
+
+        // Get the currently equipped weapon
+        if (!TryGetWeapon(entity, out var weaponUid, out var weapon))
+            return;
+
+        ClientLightAttack(entity, mousePos, coordinates, weaponUid, weapon);
+    }
+
+    public void AutoLightAttack(EntityUid target)
+    {
+        // Get the player doing the attack
+        var entityNull = _player.LocalEntity;
+
+        if (entityNull == null)
+            return;
+
+        var entity = entityNull.Value;
+
+        // Get the currently equipped weapon
+        if (!TryGetWeapon(entity, out var weaponUid, out var weapon))
+            return;
+
+        if (!TryComp(target, out TransformComponent? targetXform))
+            return;
+
+        RaisePredictiveEvent(new LightAttackEvent(GetNetEntity(target), GetNetEntity(weaponUid), GetNetCoordinates(targetXform.Coordinates)));
+    }
+
     protected override bool InRange(EntityUid user, EntityUid target, float range, ICommonSession? session)
     {
         var xform = Transform(target);
@@ -220,6 +278,9 @@ public sealed partial class MeleeWeaponSystem : SharedMeleeWeaponSystem
 
         // Don't light-attack if interaction will be handling this instead
         if (Interaction.CombatModeCanHandInteract(attacker, target))
+            return;
+
+        if (target is not null && (_combatMode.MarkTarget((EntityUid)target) || _combatMode.IsTurnProgressing()))
             return;
 
         RaisePredictiveEvent(new LightAttackEvent(GetNetEntity(target), GetNetEntity(weaponUid), GetNetCoordinates(coordinates)));

@@ -1,2 +1,2 @@
-action-popup-threat-stance-disabled = Threat stance disabled
-action-popup-threat-stance-enabled = Threat stance enabled
+action-popup-threat-stance-disabled = lowers their dukes.
+action-popup-threat-stance-enabled = raises their dukes.
