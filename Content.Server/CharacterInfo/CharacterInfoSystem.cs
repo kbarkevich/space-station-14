@@ -5,6 +5,7 @@ using Content.Shared.CharacterInfo;
 using Content.Shared.Objectives;
 using Content.Shared.Objectives.Components;
 using Content.Shared.Objectives.Systems;
+using Content.Shared.Roles;
 using Robust.Shared.Prototypes;
 
 namespace Content.Server.CharacterInfo;
@@ -35,6 +36,7 @@ public sealed partial class CharacterInfoSystem : EntitySystem
         var objectives = new Dictionary<string, List<ObjectiveInfo>>();
         var jobTitle = Loc.GetString("character-info-no-profession");
         string? briefing = null;
+        string? departmentNames = null;
         if (_minds.TryGetMind(entity, out var mindId, out var mind))
         {
             // Get objectives
@@ -62,8 +64,22 @@ public sealed partial class CharacterInfoSystem : EntitySystem
 
             // Get briefing
             briefing = _roles.MindGetBriefing(mindId);
+
+            // Get departmental info
+            List<DepartmentPrototype>? departments;
+            if (!_jobs.MindTryGetJobId(mindId, out ProtoId<JobPrototype>? jobProto)
+                    || jobProto is null
+                    || !_jobs.TryGetAllDepartments(jobProto, out departments))
+                departments = new List<DepartmentPrototype>();
+            departments.Sort(new Comparison<DepartmentPrototype>((x, y) => x.Weight - y.Weight));
+
+            departmentNames = "\n";
+            foreach (var department in departments)
+            {
+                departmentNames += Loc.GetString(department.Name) + "\n" + "- Be awesome (0/10)" + "\n\n";
+            }
         }
 
-        RaiseNetworkEvent(new CharacterInfoEvent(GetNetEntity(entity), jobTitle, objectives, briefing), args.SenderSession);
+        RaiseNetworkEvent(new CharacterInfoEvent(GetNetEntity(entity), jobTitle, objectives, briefing, departmentNames), args.SenderSession);
     }
 }

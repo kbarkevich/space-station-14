@@ -8,6 +8,7 @@ using Content.Client.UserInterface.Systems.EscapeMenu;
 using Content.Client.UserInterface.Systems.Gameplay;
 using Content.Client.UserInterface.Systems.Guidebook;
 using Content.Client.UserInterface.Systems.MenuBar.Widgets;
+using Content.Client.UserInterface.Systems.Objectives;
 using Content.Client.UserInterface.Systems.Sandbox;
 using Robust.Client.UserInterface.Controllers;
 
@@ -18,6 +19,7 @@ public sealed partial class GameTopMenuBarUIController : UIController
     [Dependency] private EscapeUIController _escape = default!;
     [Dependency] private AdminUIController _admin = default!;
     [Dependency] private CharacterUIController _character = default!;
+    [Dependency] private JobObjectivesUIController _jobObjectives = default!;
     [Dependency] private CraftingUIController _crafting = default!;
     [Dependency] private AHelpUIController _ahelp = default!;
     [Dependency] private ActionUIController _action = default!;
@@ -42,6 +44,7 @@ public sealed partial class GameTopMenuBarUIController : UIController
         _guidebook.UnloadButton();
         _admin.UnloadButton();
         _character.UnloadButton();
+        _jobObjectives.UnloadButton();
         _crafting.UnloadButton();
         _ahelp.UnloadButton();
         _action.UnloadButton();
@@ -55,6 +58,7 @@ public sealed partial class GameTopMenuBarUIController : UIController
         _guidebook.LoadButton();
         _admin.LoadButton();
         _character.LoadButton();
+        _jobObjectives.LoadButton();
         _crafting.LoadButton();
         _ahelp.LoadButton();
         _action.LoadButton();

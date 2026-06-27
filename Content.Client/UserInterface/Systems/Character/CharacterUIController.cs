@@ -130,7 +130,7 @@ public sealed partial class CharacterUIController : UIController, IOnStateEntere
             return;
         }
 
-        var (entity, job, objectives, briefing, entityName) = data;
+        var (entity, job, objectives, briefing, entityName, departments) = data;
 
         _window.SpriteView.SetEntity(entity);
 
