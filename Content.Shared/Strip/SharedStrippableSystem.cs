@@ -659,7 +659,7 @@ public abstract partial class SharedStrippableSystem : EntitySystem
 
     public bool TryOpenStrippingUi(EntityUid user, Entity<StrippableComponent> target, bool openInCombat = false)
     {
-        if (!openInCombat && TryComp<CombatModeComponent>(user, out var mode) && mode.IsInCombatMode)
+        if (!openInCombat && TryComp<CombatModeComponent>(user, out var mode) && mode.IsInThreatStance)
             return false;
 
         if (!HasComp<StrippingComponent>(user))

@@ -42,19 +42,19 @@ public sealed partial class CombatModeSystem : SharedCombatModeSystem
         base.Shutdown();
     }
 
-    public bool IsInCombatMode()
+    public bool IsInThreatStance()
     {
         var entity = _playerManager.LocalEntity;
 
         if (entity == null)
             return false;
 
-        return IsInCombatMode(entity.Value);
+        return IsInThreatStance(entity.Value);
     }
 
-    public override void SetInCombatMode(EntityUid entity, bool value, CombatModeComponent? component = null)
+    public override void SetInThreatStance(EntityUid entity, bool value, CombatModeComponent? component = null)
     {
-        base.SetInCombatMode(entity, value, component);
+        base.SetInThreatStance(entity, value, component);
         UpdateHud(entity);
     }
 
@@ -65,8 +65,8 @@ public sealed partial class CombatModeSystem : SharedCombatModeSystem
             return;
         }
 
-        var inCombatMode = IsInCombatMode();
-        LocalPlayerCombatModeUpdated?.Invoke(inCombatMode);
+        var inThreatStance = IsInThreatStance();
+        LocalPlayerCombatModeUpdated?.Invoke(inThreatStance);
     }
 
     private void OnShowCombatIndicatorsChanged(bool isShow)

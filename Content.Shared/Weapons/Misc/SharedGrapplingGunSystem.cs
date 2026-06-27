@@ -98,7 +98,7 @@ public abstract partial class SharedGrapplingGunSystem : VirtualController
 
         if (msg.Reeling &&
             (!TryComp<CombatModeComponent>(player, out var combatMode) ||
-             !combatMode.IsInCombatMode))
+             !combatMode.IsInThreatStance))
         {
             return;
         }

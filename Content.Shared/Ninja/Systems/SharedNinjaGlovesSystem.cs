@@ -125,7 +125,7 @@ public abstract partial class SharedNinjaGlovesSystem : EntitySystem
     public bool AbilityCheck(EntityUid uid, BeforeInteractHandEvent args, out EntityUid target)
     {
         target = args.Target;
-        return !_combatMode.IsInCombatMode(uid)
+        return !_combatMode.IsInThreatStance(uid)
             && _hands.GetActiveItem(uid) == null
             && _interaction.InRangeUnobstructed(uid, target);
     }

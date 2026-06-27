@@ -373,7 +373,7 @@ public abstract partial class SharedMeleeWeaponSystem : EntitySystem
         if (weapon.NextAttack > curTime)
             return false;
 
-        if (!CombatMode.IsInCombatMode(user))
+        if (!CombatMode.IsInThreatStance(user))
             return false;
 
         EntityUid? target = null;

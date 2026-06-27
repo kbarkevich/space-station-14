@@ -81,7 +81,7 @@ public sealed partial class GunOperator : HTNOperator, IHtnConditionalShutdown
     public void ConditionalShutdown(NPCBlackboard blackboard)
     {
         var owner = blackboard.GetValue<EntityUid>(NPCBlackboard.Owner);
-        _entManager.System<SharedCombatModeSystem>().SetInCombatMode(owner, false);
+        _entManager.System<SharedCombatModeSystem>().SetInThreatStance(owner, false);
         _entManager.RemoveComponent<NPCRangedCombatComponent>(owner);
         blackboard.Remove<EntityUid>(TargetKey);
     }

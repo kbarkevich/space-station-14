@@ -36,7 +36,7 @@ public sealed partial class StunSystem : SharedStunSystem
         if (args.Session?.AttachedEntity is not {Valid: true} uid)
             return false;
 
-        if (args.EntityUid != uid || !HasComp<KnockedDownComponent>(uid) || !_combat.IsInCombatMode(uid))
+        if (args.EntityUid != uid || !HasComp<KnockedDownComponent>(uid) || !_combat.IsInThreatStance(uid))
             return false;
 
         RaisePredictiveEvent(new ForceStandUpEvent());
