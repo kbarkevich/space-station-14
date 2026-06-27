@@ -1,0 +1,158 @@
+<widgets:CombatGui
+    xmlns="https://spacestation14.io"
+    xmlns:inventory="clr-namespace:Content.Client.UserInterface.Systems.Inventory.Controls"
+    xmlns:widgets="clr-namespace:Content.Client.UserInterface.Systems.Combat.Widgets"
+    xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+    Name="CombatInterface"
+    VerticalExpand="True"
+    VerticalAlignment="Bottom"
+    Orientation="Horizontal"
+    HorizontalAlignment="Center">
+    <Control HorizontalAlignment="Center">
+        <BoxContainer
+            Visible="True"
+            Orientation="Horizontal"
+            Align="Center"
+            Margin="5 0 5 0">
+            <TextureRect Stretch="KeepAspectCentered"
+                                    TexturePath="/Textures/Interface/Combat/Intents/background.png"
+                                    Margin="0 0 0 0"
+                                    SetWidth="85"
+                                    SetHeight="100">
+                <BoxContainer
+                    Name="CombatPanel"
+                    Access="Public"
+                    Visible="True"
+                    Orientation="Vertical"
+                    Align="Center"
+                    Margin="0 0 0 0">
+                    <TextureButton Name="AttackButton"
+                                        Access="Public"
+                                        TexturePath="/Textures/Interface/Combat/Intents/attack.png"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Margin="3 2 2 0"
+                                        ModulateSelfOverride="#DEDEDE"
+                                        Scale="2.4 2.4">
+                        <TextureRect Stretch="KeepAspectCentered"
+                                            TexturePath="/Textures/Interface/Combat/Intents/highlight.png"
+                                            Margin="0 0 0 0"
+                                            ReservesSpace="True"
+                                            Visible="True"
+                                            Modulate="#CC5555"
+                                            TextureScale ="2.4 2.4" />
+                    </TextureButton>
+                    <TextureButton Name="DefendButton"
+                                    Access="Public"
+                                    TexturePath="/Textures/Interface/Combat/Intents/defend.png"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Margin="3 2 2 0"
+                                    ModulateSelfOverride="#DEDEDE"
+                                    Scale="2.4 2.4">
+                        <TextureRect Stretch="KeepAspectCentered"
+                                            TexturePath="/Textures/Interface/Combat/Intents/highlight.png"
+                                            Margin="0 0 0 0"
+                                            ReservesSpace="True"
+                                            Visible="False"
+                                            Modulate="#5555CC"
+                                            TextureScale ="2.4 2.4" />
+                    </TextureButton>
+                    <TextureButton Name="FleeButton"
+                                    Access="Public"
+                                    TexturePath="/Textures/Interface/Combat/Intents/flee.png"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Margin="3 2 2 0"
+                                    ModulateSelfOverride="#DEDEDE"
+                                    Scale="2.4 2.4">
+                        <TextureRect Stretch="KeepAspectCentered"
+                                            TexturePath="/Textures/Interface/Combat/Intents/highlight.png"
+                                            Margin="0 0 0 0"
+                                            ReservesSpace="True"
+                                            Visible="False"
+                                            Modulate="#55CC55"
+                                            TextureScale ="2.4 2.4" />
+                    </TextureButton>
+                    <TextureButton Name="GiveUpButton"
+                                    Access="Public"
+                                    TexturePath="/Textures/Interface/Combat/Intents/giveup.png"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Margin="3 2 2 0"
+                                    ModulateSelfOverride="#DEDEDE"
+                                    Scale="2.4 2.4">
+                        <TextureRect Stretch="KeepAspectCentered"
+                                            TexturePath="/Textures/Interface/Combat/Intents/highlight.png"
+                                            Margin="0 0 0 0"
+                                            ReservesSpace="True"
+                                            Visible="False"
+                                            TextureScale ="2.4 2.4" />
+                    </TextureButton>
+                </BoxContainer>
+            </TextureRect>
+            <TextureRect Stretch="KeepAspectCentered"
+                            TexturePath="/Textures/Interface/Combat/Intents/background.png"
+                            Margin="0 0 0 0"
+                            SetWidth="85"
+                            SetHeight="100">
+                <BoxContainer
+                                Name="AttackTypePanel"
+                                Access="Public"
+                                Visible="True"
+                                Orientation="Vertical"
+                                Align="Center"
+                                Margin="0 0 0 0">
+                    <TextureButton Name="StrikeButton"
+                                        Access="Public"
+                                        TexturePath="/Textures/Interface/Combat/Intents/strike.png"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Margin="3 2 2 0"
+                                        ModulateSelfOverride="#DEDEDE"
+                                        Scale="2.4 2.4">
+                        <TextureRect Stretch="KeepAspectCentered"
+                                            TexturePath="/Textures/Interface/Combat/Intents/highlight.png"
+                                            Margin="0 0 0 0"
+                                            ReservesSpace="True"
+                                            Visible="True"
+                                            Modulate="#CCCCCC"
+                                            TextureScale ="2.4 2.4" />
+                    </TextureButton>
+                    <TextureButton Name="ShootButton"
+                                    Access="Public"
+                                    TexturePath="/Textures/Interface/Combat/Intents/shoot.png"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Margin="3 2 2 0"
+                                    ModulateSelfOverride="#DEDEDE"
+                                    Scale="2.4 2.4">
+                        <TextureRect Stretch="KeepAspectCentered"
+                                            TexturePath="/Textures/Interface/Combat/Intents/highlight.png"
+                                            Margin="0 0 0 0"
+                                            ReservesSpace="True"
+                                            Visible="False"
+                                            Modulate="#CCCCCC"
+                                            TextureScale ="2.4 2.4" />
+                    </TextureButton>
+                    <TextureButton Name="ThrowButton"
+                                    Access="Public"
+                                    TexturePath="/Textures/Interface/Combat/Intents/throw.png"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Margin="3 2 2 0"
+                                    ModulateSelfOverride="#DEDEDE"
+                                    Scale="2.4 2.4">
+                        <TextureRect Stretch="KeepAspectCentered"
+                                            TexturePath="/Textures/Interface/Combat/Intents/highlight.png"
+                                            Margin="0 0 0 0"
+                                            ReservesSpace="True"
+                                            Visible="False"
+                                            Modulate="#CCCCCC"
+                                            TextureScale ="2.4 2.4" />
+                    </TextureButton>
+                </BoxContainer>
+            </TextureRect>
+        </BoxContainer>
+    </Control>
+</widgets:CombatGui>
